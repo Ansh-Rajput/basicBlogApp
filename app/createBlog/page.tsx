@@ -1,17 +1,20 @@
 "use client";
 import { FormEvent, useState } from "react";
 import axios from "axios";
+import { Span } from "next/dist/trace";
 
 const CreateBlog = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
+  const [creating, setCreating] = useState<boolean>(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
+      setCreating(true);
       const response = await axios.post("/api/blogs", {
         title,
         content,
@@ -19,7 +22,7 @@ const CreateBlog = () => {
         videoUrl,
       });
 
-      console.log("Blog created:", response.data);
+      setCreating(false);
     } catch (error) {
       console.error("Error creating blog:", error);
     }
@@ -60,9 +63,10 @@ const CreateBlog = () => {
         />
         <button
           type="submit"
-          className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          disabled={creating || !title || !content}
+          className="w-full p-2 bg-blue-500 disabled:cursor-not-allowed disabled:bg-blue-300 text-white rounded hover:bg-blue-600 cursor-pointer"
         >
-          Create Blog
+          {creating ? <span>Creating blog...</span> : <span>Create blog</span>}
         </button>
       </form>
     </div>

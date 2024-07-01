@@ -17,6 +17,10 @@ export async function POST(req: Request) {
     if (!user || !bcrypt.compareSync(password, user.password)) {
       return new Response("Invalid credentials", { status: 400 });
     }
+    if (!user.is_verified) {
+      return new Response("User not verified", { status: 400 });
+    }
+
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET as string

@@ -1,6 +1,5 @@
 import connectDB from "@/lib/mongodb";
 import Blog from "@/models/Blog";
-import User from "@/models/User";
 
 export async function GET(
   req: Request,

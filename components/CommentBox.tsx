@@ -19,6 +19,7 @@ const CommentBox = ({ id, commentArray }: CommentBoxProps) => {
     const resopnse = await axios.post(`/api/comments/${id}`, { comment });
 
     setComments(resopnse.data.comments);
+    setComment("");
   };
   return (
     <div className="space-y-3">
@@ -32,13 +33,15 @@ const CommentBox = ({ id, commentArray }: CommentBoxProps) => {
           onChange={(e) => setComment(e.target.value)}
         ></textarea>
         <button
-          className="w-full p-3 text-center bg-blue-500 text-white text-lg"
+          className="w-full p-3 text-center bg-blue-500 text-white text-lg disabled:cursor-not-allowed cursor-pointer disabled:bg-blue-200"
           onClick={handleOnClick}
+          disabled={comment.trim().length === 0}
         >
           Post
         </button>
       </div>
       <div className="space-y-3">
+        <div className="text-lg font-bold">Comments:</div>
         {comments.map((cmt, i) => (
           <div key={i} className=" rounded-md shadow-md p-3 space-y-3">
             <div className="flex justify-between">

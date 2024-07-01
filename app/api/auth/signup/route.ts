@@ -1,6 +1,7 @@
 import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
+import sendEmailVerificationOTP from "@/utils/sendEmailVerification";
 
 export async function POST(req: Request) {
   await connectDB();
@@ -24,6 +25,7 @@ export async function POST(req: Request) {
       password: bcrypt.hashSync(password, 10),
     });
     await user.save();
+    sendEmailVerificationOTP(user);
     return new Response("User Created", { status: 200 });
   } catch (error) {
     return new Response("Error creating user", { status: 400 });

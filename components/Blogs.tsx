@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Blog from "./Blog";
 import Loading from "./Loading";
+import Link from "next/link";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState<IBlog[]>([]);
@@ -25,6 +26,17 @@ const Blogs = () => {
 
   if (loading) {
     return <Loading />;
+  }
+
+  if (blogs.length === 0) {
+    return (
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <h2 className="text-2xl font-bold">No blogs yet...</h2>
+        <Link href={"/createBlog"} className="text-blue-500 text-center block">
+          Create a blog?
+        </Link>
+      </div>
+    );
   }
 
   return (

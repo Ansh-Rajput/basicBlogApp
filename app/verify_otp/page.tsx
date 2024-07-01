@@ -11,6 +11,8 @@ const VerifyEmail = () => {
 
   const searchParams = useSearchParams();
 
+  const disabled = !email || !otp || loading;
+
   useEffect(() => {
     const tempEmail = searchParams.get("email");
     const tempOtp = searchParams.get("otp");
@@ -78,7 +80,8 @@ const VerifyEmail = () => {
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-blue-300"
+          disabled={disabled}
         >
           Verify
         </button>

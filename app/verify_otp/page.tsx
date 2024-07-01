@@ -7,6 +7,7 @@ const VerifyEmail = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const searchParams = useSearchParams();
 
@@ -27,14 +28,17 @@ const VerifyEmail = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setLoading(true);
       await axios.post("/api/auth/verify_otp", {
         email,
         otp,
       });
 
+      setLoading(false);
       router.push("/signin");
     } catch (err) {
       setError("Invalid email or otp");
+      setLoading(false);
     }
   };
 

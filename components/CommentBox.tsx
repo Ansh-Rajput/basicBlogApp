@@ -11,12 +11,15 @@ interface CommentBoxProps {
 
 const CommentBox = ({ id, commentArray }: CommentBoxProps) => {
   const [comment, setComment] = useState("");
+  const [posting, setPosting] = useState(false);
   const [comments, setComments] = useState<Comment[]>(
     commentArray ? commentArray : []
   );
 
   const handleOnClick = async () => {
+    setPosting(true);
     const resopnse = await axios.post(`/api/comments/${id}`, { comment });
+    setPosting(false);
 
     setComments(resopnse.data.comments);
     setComment("");
@@ -33,11 +36,11 @@ const CommentBox = ({ id, commentArray }: CommentBoxProps) => {
           onChange={(e) => setComment(e.target.value)}
         ></textarea>
         <button
-          className="w-full p-3 text-center bg-blue-500 text-white text-lg disabled:cursor-not-allowed cursor-pointer disabled:bg-blue-200"
+          className="w-full p-3 text-center bg-blue-500 text-white text-lg disabled:cursor-not-allowed cursor-pointer disabled:bg-blue-300"
           onClick={handleOnClick}
-          disabled={comment.trim().length === 0}
+          disabled={comment.trim().length === 0 || posting}
         >
-          Post
+          {posting ? <span>Posting...</span> : <span>Post</span>}
         </button>
       </div>
       <div className="space-y-3">

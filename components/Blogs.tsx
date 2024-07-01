@@ -42,7 +42,9 @@ const Blogs = () => {
   return (
     <div className="p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
       {blogs.map((blog, i) => (
-        <Blog blog={blog} key={i} />
+        <div className="h-full" key={i}>
+          <Blog blog={blog} />
+        </div>
       ))}
     </div>
   );

@@ -8,21 +8,27 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setLoading(true);
       await axios.post("/api/auth/signin", {
         email,
         password,
       });
+      setLoading(false);
       router.push("/");
     } catch (err) {
       setError("Invalid email or password");
+      setLoading(false);
     }
   };
+
+  const disabled = !email || !password || loading;
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -60,9 +66,10 @@ const SignIn = () => {
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+          disabled={disabled}
+          className="w-full bg-blue-500 disabled:cursor-not-allowed disabled:bg-blue-300 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
         >
-          Sign In
+          {loading ? <span>Authenticating ...</span> : <span>Sign In</span>}
         </button>
         <Link
           href={"signup"}

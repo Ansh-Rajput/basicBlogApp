@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, Suspense, useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -83,4 +83,9 @@ const VerifyEmail = () => {
   );
 };
 
-export default VerifyEmail;
+const VerifyEmailWrapper = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <VerifyEmail />
+  </Suspense>
+);
+export default VerifyEmailWrapper;

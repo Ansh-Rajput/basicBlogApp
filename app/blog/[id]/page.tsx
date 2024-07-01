@@ -23,23 +23,27 @@ const BlogPage = ({ params }: { params: { id: string } }) => {
   if (loading) return <Loading />;
 
   return (
-    <div className="space-y-5 max-w-xl m-auto p-3">
-      <h1 className="text-4xl font-bold capitalize text-center">
+    <div className="space-y-8 max-w-4xl mx-auto my-7 p-6 bg-gray-50 rounded-lg shadow-lg">
+      <h1 className="text-5xl font-extrabold capitalize text-center text-gray-900">
         {blog?.title}
       </h1>
       {blog?.imageUrl ? (
         <img
           src={blog.imageUrl}
-          className="h-[50vh] object-cover m-auto shadow-md"
+          className="h-96 w-full object-cover rounded-lg shadow-md"
+          alt="Blog"
         />
       ) : null}
       {blog?.videoUrl ? (
         <video
           src={blog.videoUrl}
-          className="h-[50vh] object-cover m-auto shadow-md"
+          className="h-96 w-full object-cover rounded-lg shadow-md"
+          controls
         />
       ) : null}
-      <div>{blog?.content}</div>
+      <div className="text-lg text-gray-800 leading-relaxed">
+        {blog?.content}
+      </div>
       <CommentBox id={id} commentArray={blog?.comments!} />
     </div>
   );

@@ -9,23 +9,29 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setLoading(true);
       await axios.post("/api/auth/signup", {
         username: name,
         email,
         password,
       });
 
+      setLoading(false);
       router.push("/verify_otp");
     } catch (err) {
       setError("Invalid email or password");
+      setLoading(false);
     }
   };
+
+  const disabled = !name || !email || !password || loading;
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -76,9 +82,10 @@ const SignUp = () => {
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-blue-300"
+          disabled={disabled}
         >
-          Sign In
+          Sign Up
         </button>
         <Link
           href={"/signin"}

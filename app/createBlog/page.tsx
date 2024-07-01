@@ -1,7 +1,6 @@
 "use client";
 import { FormEvent, useState } from "react";
 import axios from "axios";
-import { Span } from "next/dist/trace";
 
 const CreateBlog = () => {
   const [title, setTitle] = useState("");
@@ -25,6 +24,7 @@ const CreateBlog = () => {
       setCreating(false);
     } catch (error) {
       console.error("Error creating blog:", error);
+      setCreating(false);
     }
   };
 

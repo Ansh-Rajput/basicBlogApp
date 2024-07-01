@@ -7,8 +7,11 @@ const VerifyEmail = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const searchParams = useSearchParams();
+
+  const disabled = !email || !otp || loading;
 
   useEffect(() => {
     const tempEmail = searchParams.get("email");
@@ -27,14 +30,17 @@ const VerifyEmail = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setLoading(true);
       await axios.post("/api/auth/verify_otp", {
         email,
         otp,
       });
 
+      setLoading(false);
       router.push("/signin");
     } catch (err) {
       setError("Invalid email or otp");
+      setLoading(false);
     }
   };
 
@@ -74,7 +80,8 @@ const VerifyEmail = () => {
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-blue-300"
+          disabled={disabled}
         >
           Verify
         </button>

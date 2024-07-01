@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
+import { IUser } from "./User";
 const BlogSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
@@ -21,7 +22,7 @@ export default Blog;
 
 // Define the Comment interface
 export interface Comment {
-  user: mongoose.Schema.Types.ObjectId;
+  user: mongoose.Schema.Types.ObjectId & IUser;
   comment: string;
 }
 

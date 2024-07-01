@@ -22,7 +22,7 @@ import Link from "next/link";
 import React from "react";
 
 const Blog = ({ blog }: { blog: IBlog }) => {
-  const defaultImageUrl = "https://example.com/non-existent-image.jpg";
+  const defaultImageUrl = "https://demofree.sirv.com/nope-not-here.jpg?w=150";
 
   return (
     <Link
